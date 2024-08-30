@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playio Music App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="screen">
+        <header>
+            <button id="theme-toggle">Theme</button>
+        </header>
+        <button id="skip-button">Skip</button>
+        <img src="/assets/headphones.png" alt="Headphones">
+        <div class="intro">
+            <h1>Playio<span>.</span></h1>
+            <p>Playio supports artists with tools to create, release and measure music across global stage.</p>
+        </div>
+    </div>
+
+    <!-- Home Screen -->
+    <div id="home-screen" class="screen hidden">
+        <header>
+            <div class="top-album">
+                <img src="assets/INTENTIONS-JUSTIN-BIEBER.png" alt="intentions">
+                <div class="move"><h5>Justin Bieber</h5>
+                <p>1,323,799,000 Streams</p>
+                <p class="follow">Follow +</p>
+            </div>
+            </div>
+        </header>
+        <main>
+            <h2>Top Mix</h2>
+            <section id="top-mix">
+                
+                <div class="album" id="album" data-index="0">
+                    <img src="assets/yummy.jpg" alt="Album 1">
+                    <p>Justin-Bieber Yummy</p>
+                </div>
+                <div class="album" id="album" data-index="1">
+                    <img src="assets/love.jpeg" alt="Album 1">
+                    <p>Justin-B_Love-urself</p>
+                </div>
+            </section>
+            <h2>Recently Played</h2>
+            <section id="top-mix" class="recently-played">
+                
+                <!-- Similar structure as Top Mix -->
+                <div class="album" data-index="2">
+                    <img src="assets/chandalia.jpg" alt="Album 2">
+                    <p>Chandelie-Sia</p>
+                </div>
+                <div class="album" data-index="3">
+                    <img src="assets/lovely.jpg" alt="Album 3">
+                    <p>Billie Eilish, Khalid - lovely</p>
+                </div>
+                <div class="album" data-index="4">
+                    <img src="assets/shape of you.jpg" alt="Album 4">
+                    <p>Ed Sheeran-Shape-of-YOu</p>
+                </div>
+                <div class="album" data-index="5">
+                    <img src="assets/INTENTIONS-JUSTIN-BIEBER.png" alt="Album 5">
+                    <p>intentions-Justin-Bieber</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Player Screen -->
+    <div id="player-screen" class="screen hidden">
+        <img src="album-cover.png" alt="Album Cover" class="album-cover">
+        <h3>Song Title</h3>
+        <p>Artist Name</p>
+        <audio controls id="audio-player"></audio>
+        <div id="player-controls">
+            <button id="prev-button">Prev</button>
+            <button id="play-pause-button">Play</button>
+            <button id="next-button">Next</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
