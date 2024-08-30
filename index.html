@@ -37,11 +37,11 @@
                 
                 <div class="album" id="album" data-index="0">
                     <img src="assets/yummy.jpg" alt="Album 1">
-                    <p>Justin-Bieber Yummy</p>
+                    <p class="bie">Justin-Bieber Yummy</p>
                 </div>
                 <div class="album" id="album" data-index="1">
                     <img src="assets/love.jpeg" alt="Album 1">
-                    <p>Justin-B_Love-urself</p>
+                    <p class="jus">Justin-B_Love-urself</p>
                 </div>
             </section>
             <h2>Recently Played</h2>
@@ -71,8 +71,13 @@
     <!-- Player Screen -->
     <div id="player-screen" class="screen hidden">
         <img src="album-cover.png" alt="Album Cover" class="album-cover">
+        <div class="name">
         <h3>Song Title</h3>
         <p>Artist Name</p>
+        <div class="love">
+            <img src="" alt="">
+        </div>
+    </div>
         <audio controls id="audio-player"></audio>
         <div id="player-controls">
             <button id="prev-button">Prev</button>

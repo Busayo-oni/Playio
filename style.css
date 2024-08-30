@@ -83,6 +83,7 @@ body.dark-theme {
     width: 100%;
     height: auto;
     display: flex;
+    justify-content: center;
     padding: 200px 10px;
 }
 
@@ -114,7 +115,7 @@ body.dark-theme {
     left: 10px;
 }
 .move .follow{
-    background-color: hsl(0, 1%, 56%);
+    background-color: hsla(0, 1%, 56%, 0.568);
 
     display: inline;
     padding: 6px 10px;
@@ -138,17 +139,13 @@ main #home-screen{
     
 }
 
-/* .album {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-} */
 
-.album img {
+#album img {
     width: 200px;
     height: 200px;
     border-radius: 20px;
+    display: flex;
+    margin: 0 30px;
 }
 #top-mix.recently-played  {
     display: flex;
@@ -161,11 +158,11 @@ main #home-screen{
 #album p{
     position: relative;
     padding: 5px 10px;
-    display: inline-block;
     background-color: #817c7c98;
     border-radius: 20px;
-    left: -190px;
-    bottom: 20px;
+    display: inline;
+    left: 35px;
+    bottom: 40px;
     color: #ffffff;
 }
 .recently-played .album{
@@ -176,11 +173,12 @@ main #home-screen{
 .recently-played .album img{
     width: 50px;
     height: 50px;
+    border-radius: 10px;
 }
 
 /* Player Screen */
 .album-cover {
-    width: 88vw;
+    width: 50vw;
     height: 360px;
     border-radius: 20px;
     margin-bottom: 20px;
@@ -205,3 +203,8 @@ main #home-screen{
     width: 85vw;
 }
 
+@media screen and (max-width: 767px) {
+      .album-cover {
+        width: 88vw;
+    }
+}
