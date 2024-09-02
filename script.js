@@ -13,6 +13,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const albumCover = playerScreen.querySelector('.album-cover');
     const songTitle = playerScreen.querySelector('h3');
     const artistName = playerScreen.querySelector('p');
+        const canvas = document.getElementById('visualizer');
+    const ctx = canvas.getContext('2d');
+
+    // Resize canvas to fit player screen
+    canvas.width = playerScreen.clientWidth;
+    canvas.height = 100; // Set height for the visualization
+
+    // Web Audio API setup
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const audioSource = audioContext.createMediaElementSource(audioPlayer);
+    const analyzer = audioContext.createAnalyser();
+    audioSource.connect(analyzer);
+    analyzer.connect(audioContext.destination);
+
+    analyzer.fftSize = 256; // Determines the number of bars (frequency bins)
+    const bufferLength = analyzer.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
 
     // Music array
     const musicList = [
@@ -63,17 +80,17 @@ document.addEventListener('DOMContentLoaded', function() {
         songTitle.textContent = track.title;
         artistName.textContent = track.artist;
         albumCover.src = track.cover;
-        currentTrack = index;
     }
 
     // Play/Pause Toggle
     function togglePlayPause() {
         if (audioPlayer.paused) {
             audioPlayer.play();
-            playPauseButton.textContent = 'Pause';
+            playPauseButton.innerHTML = '<img src="assets/pause-removebg-preview.png" width="50px" height="50px"></img>';
+            audioContext.resume();
         } else {
             audioPlayer.pause();
-            playPauseButton.textContent = 'Play';
+            playPauseButton.innerHTML = '<img src="assets/play-removebg-preview.png" width="50px" height="50px">';
         }
     }
 
@@ -82,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentTrack = (currentTrack + 1) % musicList.length;
         loadTrack(currentTrack);
         audioPlayer.play();
-        playPauseButton.textContent = 'Pause';
+        playPauseButton.innerHTML = '<img src="assets/pause-removebg-preview.png" width="50px" height="50px"></img>';
     }
 
     // Previous Track
@@ -90,24 +107,25 @@ document.addEventListener('DOMContentLoaded', function() {
         currentTrack = (currentTrack - 1 + musicList.length) % musicList.length;
         loadTrack(currentTrack);
         audioPlayer.play();
-        playPauseButton.textContent = 'Pause';
+        playPauseButton.innerHTML = '<img src="assets/pause-removebg-preview.png" width="50px" height="50px"></img>';
     }
 
-    // Event Listeners
+    // Event Listeners for Play/Pause, Next, Previous buttons
     playPauseButton.addEventListener('click', togglePlayPause);
     nextButton.addEventListener('click', nextTrack);
     prevButton.addEventListener('click', prevTrack);
 
-    // Link music to album clicks in Top Mix
-    const albums = document.querySelectorAll('#top-mix .album');
-    albums.forEach(album => {
-        album.addEventListener('click', (event) => {
-            const index = event.currentTarget.getAttribute('data-index');
-            loadTrack(index);
-            homeScreen.classList.add('hidden');
+    // Event Listener for each album in Top Mix to load and play the track
+    const topMixAlbums = document.querySelectorAll('#top-mix .album');
+    topMixAlbums.forEach(album => {
+        album.addEventListener('click', function() {
+            const trackIndex = parseInt(this.getAttribute('data-index'));
+            currentTrack = trackIndex;
+            loadTrack(currentTrack);
             playerScreen.classList.remove('hidden');
+            homeScreen.classList.add('hidden');
             audioPlayer.play();
-            playPauseButton.textContent = 'Pause';
+            playPauseButton.innerHTML = '<img src="assets/pause-removebg-preview.png" width="50px" height="50px"></img>';
         });
     });
 
@@ -125,4 +143,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load the first track initially
     loadTrack(currentTrack);
+
+    function drawVisualizer() {
+        requestAnimationFrame(drawVisualizer);
+
+        analyzer.getByteFrequencyData(dataArray);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const barWidth = (canvas.width / bufferLength) * 1.5;
+        let barHeight;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+            barHeight = dataArray[i] / 2;
+
+            const r = barHeight + 25 * (i / bufferLength);
+            const g = 250 * (i / bufferLength);
+            const b = 50;
+
+            ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+            ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+            x += barWidth + 1;
+        }
+    }
+
+    drawVisualizer();
 });
