@@ -13,24 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const albumCover = playerScreen.querySelector('.album-cover');
     const songTitle = playerScreen.querySelector('h3');
     const artistName = playerScreen.querySelector('p');
-        const canvas = document.getElementById('visualizer');
-    const ctx = canvas.getContext('2d');
-
-    // Resize canvas to fit player screen
-    canvas.width = playerScreen.clientWidth;
-    canvas.height = 100; // Set height for the visualization
-
-    // Web Audio API setup
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const audioSource = audioContext.createMediaElementSource(audioPlayer);
-    const analyzer = audioContext.createAnalyser();
-    audioSource.connect(analyzer);
-    analyzer.connect(audioContext.destination);
-
-    analyzer.fftSize = 256; // Determines the number of bars (frequency bins)
-    const bufferLength = analyzer.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
     // Music array
     const musicList = [
         {
@@ -143,31 +125,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load the first track initially
     loadTrack(currentTrack);
-
-    function drawVisualizer() {
-        requestAnimationFrame(drawVisualizer);
-
-        analyzer.getByteFrequencyData(dataArray);
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const barWidth = (canvas.width / bufferLength) * 1.5;
-        let barHeight;
-        let x = 0;
-
-        for (let i = 0; i < bufferLength; i++) {
-            barHeight = dataArray[i] / 2;
-
-            const r = barHeight + 25 * (i / bufferLength);
-            const g = 250 * (i / bufferLength);
-            const b = 50;
-
-            ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-            ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-
-            x += barWidth + 1;
-        }
-    }
-
-    drawVisualizer();
 });
