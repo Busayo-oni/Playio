@@ -269,7 +269,7 @@ main{
         color: #ffffff;
     }
     .top-album img{
-        width: 80vw;
+        width: 100vw;
         border-radius: 20px;
     }
     .top-album .move{
@@ -322,8 +322,8 @@ main{
     
     
     #album img {
-        width: 100px;
-        height: 100px;
+        width: 150px;
+        height: 150px;
         border-radius: 20px;
         display: flex;
         margin: 0 0px;
