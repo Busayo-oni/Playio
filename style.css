@@ -320,7 +320,7 @@ main{
     }
     .title .tit{
         font-size: 8px;
-        color: #020286;
+        color: #2525b1;
     }
     
     
@@ -337,7 +337,7 @@ main{
         background-color: #817c7c98;
         border-radius: 20px;
         display: inline;
-        left: 2px;
+        left: 25px;
         bottom: 40px;
         color: #ffffff;
         font-size: 8px;
