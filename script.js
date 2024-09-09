@@ -13,6 +13,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const albumCover = playerScreen.querySelector('.album-cover');
     const songTitle = playerScreen.querySelector('h3');
     const artistName = playerScreen.querySelector('p');
+    const canvas = document.getElementById('visualizer');
+    const ctx = canvas.getContext('2d');
+
+    // Resize canvas to fit player screen
+    canvas.width = playerScreen.clientWidth;
+    canvas.height = 100; // Set height for the waveform visualization
+
+    // Web Audio API setup
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const audioSource = audioContext.createMediaElementSource(audioPlayer);
+    const analyzer = audioContext.createAnalyser();
+    audioSource.connect(analyzer);
+    analyzer.connect(audioContext.destination);
+
+    analyzer.fftSize = 2048; // Higher fftSize for smoother waveform
+    const bufferLength = analyzer.fftSize;
+    const dataArray = new Uint8Array(bufferLength);
     // Music array
     const musicList = [
         {
@@ -54,6 +71,22 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     let currentTrack = 0;
+    let isShuffle = false;
+    let isRepeat = false;
+
+        // Shuffle Toggle
+        const shuffleButton = document.getElementById('shuffle-button');
+        shuffleButton.addEventListener('click', () => {
+            isShuffle = !isShuffle;
+            shuffleButton.classList.toggle('active', isShuffle);
+        });
+
+    // Repeat Toggle
+    const repeatButton = document.getElementById('repeat-button');
+    repeatButton.addEventListener('click', () => {
+        isRepeat = !isRepeat;
+        repeatButton.classList.toggle('active', isRepeat);
+    });
 
     // Load track function
     function loadTrack(index) {
@@ -78,7 +111,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Next Track
     function nextTrack() {
-        currentTrack = (currentTrack + 1) % musicList.length;
+        if (isShuffle) {
+            currentTrack = Math.floor(Math.random()* musicList.length);
+        } else {
+            currentTrack = (currentTrack + 1) % musicList.length;
+        }
         loadTrack(currentTrack);
         audioPlayer.play();
         playPauseButton.innerHTML = '<img src="assets/pause-removebg-preview.png" width="50px" height="50px"></img>';
@@ -86,7 +123,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Previous Track
     function prevTrack() {
-        currentTrack = (currentTrack - 1 + musicList.length) % musicList.length;
+        if (isShuffle) {
+            currentTrack = Math.floor(Math.random()* musicList.length);
+        } else {
+            currentTrack = (currentTrack - 1 + musicList.length) % musicList.length;
+        }
         loadTrack(currentTrack);
         audioPlayer.play();
         playPauseButton.innerHTML = '<img src="assets/pause-removebg-preview.png" width="50px" height="50px"></img>';
@@ -123,6 +164,45 @@ document.addEventListener('DOMContentLoaded', function() {
         homeScreen.classList.remove('hidden');
     });
 
-    // Load the first track initially
+        // Event listener for when the track ends
+        audioPlayer.addEventListener('ended', () => {
+            if (isRepeat) {
+                audioPlayer.currentTime = 0;
+                audioPlayer.play();
+            } else {
+                nextTrack();
+            }
+        });
+
+        // Load the first track initially
     loadTrack(currentTrack);
+
+    // Audio Visualization
+    function drawVisualizer() {
+        requestAnimationFrame(drawVisualizer);
+
+        analyzer.getByteFrequencyData(dataArray);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const barWidth = (canvas.width / bufferLength) * 1.5;
+        let barHeight;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+            barHeight = dataArray[i] / 2;
+
+            const r = barHeight + 25 * (i / bufferLength);
+            const g = 250 * (i / bufferLength);
+            const b = 50;
+
+            ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+            ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+            x += barWidth + 1;
+        }
+    }
+
+
+    drawVisualizer();
 });

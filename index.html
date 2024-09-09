@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playio Music App</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- Splash Screen -->
@@ -118,15 +119,17 @@
             <button id="shuffle-button"><img src="https://static.vecteezy.com/system/resources/thumbnails/045/719/048/small/red-heart-digital-cute-cartoon-icon-artwork-isolated-element-illustration-valentine-day-concept-love-sign-symbol-free-png.png" width="25px" height="25px" alt="Shuffle"></button>
         </div>
     </div>
-        <audio id="audio-player"></audio>
+    <div class="acura">
+        <audio controls id="audio-player"></audio>
         <canvas id="visualizer"></canvas>
+    </div>
         <div id="player-controls">
-            <button id="shuffle-button"><img src="https://cdn-icons-png.freepik.com/256/8045/8045494.png?semt=ais_hybrid" width="25px" height="25px" alt="Shuffle"></button>
+            <button class="click" id="shuffle-button"><img src="https://cdn-icons-png.freepik.com/256/8045/8045494.png?semt=ais_hybrid" width="25px" height="25px" alt="Shuffle"></button>
 
             <button id="prev-button"><img src="assets/skip_previous_34dp_789DE5_FILL0_wght400_GRAD0_opsz40.png" width="25px" height="25px" alt="Prev"></button>
             <button id="play-pause-button"><img src="play-icon.png" alt="Play/Pause"></button>
             <button id="next-button"><img src="assets/skip_next_34dp_789DE5_FILL0_wght400_GRAD0_opsz40.png" width="25px" height="25px" alt="Next"></button>
-            <button id="next-button"><img src="https://cdn-icons-png.freepik.com/512/724/724826.png" width="25px" height="25px" alt="Next"></button>
+            <button class="click" id="repeat-button"><img src="https://cdn-icons-png.freepik.com/512/724/724826.png" width="25px" height="25px" alt="Next"></button>
         </div>
         </div>
         <div id="progress-bar">

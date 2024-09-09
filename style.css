@@ -218,6 +218,17 @@ main{
     border: none;
     cursor: pointer;
 }
+.progress-container {
+    height: 7px;
+    margin: 0 10px;
+    width: 80%;
+    background-color: #A8A8A8;
+}
+#player-screen .click:focus{
+    background-color: #6b6969;
+    border-radius: 100%;
+
+}
 .album-cover {
     width: 50vw;
     height: 50vh;
@@ -240,8 +251,9 @@ main{
     border-radius: 50px;
     cursor: pointer;
 }
-#audio-player{
-    width: 85vw;
+.acura #visualizer{
+    width: 50vw;
+    background-color: transparent;
 }
 
 @media screen and (max-width:767px){
