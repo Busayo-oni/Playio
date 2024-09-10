@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (audioPlayer.paused) {
             audioPlayer.play();
             playPauseButton.innerHTML = '<img src="assets/pause-removebg-preview.png" width="50px" height="50px"></img>';
-            // audioContext.resume();
+            audioContext.resume();
         } else {
             audioPlayer.pause();
             playPauseButton.innerHTML = '<img src="assets/play-removebg-preview.png" width="50px" height="50px">';
